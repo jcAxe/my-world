@@ -19,6 +19,13 @@ mob
 		icon_state = gender
 		..()
 	verb
+		attack(mob/M as mob in oview(1))
+			usr << "You attacked [M]!"
+			oview() << "[usr] attacked [M]!"
+			var/damage = rand(1,10)
+			world << "[damage] damage!" //maybe later place view instead of world
+			M.HP -= damage
+
 		say(msg as text)		// the user will use the command "say" as text, and the text will be used through the variable msg
 			world << "[usr]: [msg]"		//the world sees chatroom-like output
 
