@@ -1,14 +1,16 @@
 "a" = (/turf/grass,/area)
+"b" = (/obj/tree,/turf/grass,/area)
+"c" = (/mob/bug,/turf/grass,/area)
 
 (1,1,1) = {"
 aaaaaaaaaa
+aaaaaaabaa
+baaacaaaaa
 aaaaaaaaaa
 aaaaaaaaaa
 aaaaaaaaaa
-aaaaaaaaaa
-aaaaaaaaaa
-aaaaaaaaaa
-aaaaaaaaaa
-aaaaaaaaaa
+bbaaaaaaaa
+bbaaaaaaaa
+bbbaaaabaa
 aaaaaaaaaa
 "}

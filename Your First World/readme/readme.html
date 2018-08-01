@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<title>Your First World!</title>
+
+		<style>
+			body {
+				font-family: Georgia;
+			}
+
+			p.indent:first-letter {
+				margin-left: 45px;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="header">
+			<h1>Your First World!</h1>
+
+			<div id="navigation">
+				<ol>
+					<li><a href="#objects-and-variables">Introducing Objects and Variables</a></li>
+					<li><a href="#procedures">Introducing Procedures</a></li>
+					<li><a href="#verbs">Introducing Verbs</a></li>
+					<li><a href="#interconnecting-procedures">Interconnecting Procedures</a></li>
+					<li><a href="#multiplayer-functionality">Adding Multiplayer Function</a></li>
+					<li><a href="#where-next">Where To Go Next</a></li>
+				</ol>
+			</div>
+		</div>
+
+		<hr>
+
+		<p>In this tutorial, we present a simple world that explores some basic properties of DM. It also serves as an introduction to the compiler interface, Dream Maker. To get started, open <code>Your First World.dme</code>, the DM Environment file, with Dream Maker.</p>
+
+		<hr>
+
+		<div id="objects-and-variables">
+			<h2>Introducing Objects and Variables</h2>
+
+			<p>Once in Dream Maker, open the DM file, <code>main-a.dm</code> by double-clicking on it from the file tree. Note that it is <em>included</em> in the project because the checkbox next to it is checked. The checkbox for the map file, <code>map.dmm</code>, should also be selected. None of the other checkboxes (<code>main-b.dm</code>, <code>main-c.dm</code>, and so on) should be selected yet.</p>
+
+			<p>This file defines objects of the four fundamental types: <code>area</code>, <code>turf</code>, <code>obj</code>, and <code>mob</code>. In total, there are twelve object definitions in <code>main-a.dm</code>.</p>
+
+			<table>
+				<tr>
+					<td><code>/area, /area/outside, /area/cave</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/turf, /turf/floor, &nbsp;&nbsp;/turf/wall</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/obj, &nbsp;/obj/cheese, &nbsp;&nbsp;/obj/scroll</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/mob, &nbsp;/mob/player, &nbsp;&nbsp;/mob/rat</code></td>
+				</tr>
+			</table>
+			
+			<p>These objects have default, predefined properties. We have overriden some of these properties in order to make the objects behave differently. For example, the turf type <code>/turf/wall</code> is described as a "dense, opaque object with the <var>icon</var> <code>'wall.dmi'</code>." Each of the four fundamental types has a different set of predefined properties. Since these are the foundation objects for all physical objects, they are called "atomic" objects. To learn more about them, you can consult <code><a href="http://www.byond.com/docs/ref/info.html#/atom">atom</a></code> in the reference.</p>
+
+			<p>The <code>world</code> object describes properties of the game as a whole. For instance, the <var>world.mob</var> variable indicates the type of object to create for players when they log in. Here, an object of type <code>/mob/player</code> will be created.</p>
+
+			<p>By itself, <code>main-a.dm</code> only describes the <em>types</em> of objects that may be present in the world. In order for anything to happen, we need <em>instances</em> of those objects. One way to easily make instances is to place them on a graphical map that gets loaded when your world is first started up.</p>
+
+			<p>To edit the map, simply double-click on the <code>map.dmm</code> entry in the file tree. This launches the map editor, loading it with the information predefined in the file:</p>
+
+			<img src="map.gif" alt="map" width="353" height="353">
+
+			<p>This map contains six of our twelve possible objects:</p>
+
+			<table>
+				<tr>
+					<td><code>/area/outside, /area/cave</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/turf/floor, &nbsp;&nbsp;/turf/wall</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/obj/cheese, &nbsp;&nbsp;/obj/scroll</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/mob/rat</code></td>
+				</tr>
+			</table>
+
+			<p>On the map, the (iconless) areas may be distinguished by selecting the "Frame Areas" option while the map is open. All of the other objects have icons, which we've previously built with the icon editor. If you are feeling an artistic flair, edit the map and icons to your liking. The documentation included with Dream Maker explains the process in full.</p>
+
+			<p>When you are satisfied with the visual appeal of the map, save it and then merge it with the DM file by selecting "Compile" from the "Build" menu. If you haven't messed around with the code too much, everything should compile cleanly. This generates a binary file called <code>Your First World.dmb</code>. The BYOND client, Dream Seeker, and BYOND server, Dream Daemon, can read this file to run your world. To take this big step, select "Run" from the "Build" menu. After you log in to the world, you should see your map from a third person point of view, with portions of the map obscured due to the opaque <code>wall</code> turfs.</p>
+
+			<img src="start.gif" alt="start" width="349" height="262">
+
+			<p>The <code>player</code> icon on the screen is you! You can do a couple things in this world:</p>
+
+			<ul>
+				<li>Walk around with the keyboard using the arrow keys.</li>
+				<li>Bump into dense wall turfs and move through non-dense floor turfs.</li>
+			</ul>
+
+			<p>Okay, it's not too exciting! But this is only a foundation. We'll explore a couple of slightly more powerful variations below.</p>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+
+		<hr>
+
+		<div id="procedures">
+			<h2>Introducing Procedures</h2>
+
+			<p>Include the file <code>main-b.dm</code> by selecting the checkbox next to it in the file tree. This adds additional source code to the existing code defined in <code>main-a.dm</code>. The new code illustrates the use of some predefined DM procedures (known as "procs") to output text and sound to the user.</p>
+
+			<p>In the last world, although we defined two areas on the map, they were indistinguishable to the players in the world. In this world, we've changed this by adding a new variable and modifying an existing one for areas:</p>
+
+			<pre>
+area
+	var
+		music
+
+	outside
+		desc = "Nice and jazzy, here..."
+
+		music = 'jazzy.mid'
+
+	cave
+		desc = "Watch out for the giant rat!"
+
+		music = 'cavern.mid'</pre>
+
+			<p>Each area has a description (<code>area.desc</code>) and music (<code>area.music</code>). When players enter a new area, they will see the description and hear the sound. This is accomplished by the following snippet of DM code:</p>
+
+			<pre>
+	Entered(mob/m)
+		if(!ismob(m))
+			return
+
+		m &lt;&lt; desc
+
+		m &lt;&lt; sound(music, 1, channel = 1)</pre>
+
+			<p><code>area.Entered()</code> is a predefined procedure that is called whenever a mob has entered an area. Here we have overriden it to output a description and to play some music. Because we have defined this <code>Entered()</code> procedure under the top <code>/area</code> object, it is "inherited" by the child types <code>/area/outside</code> and <code>/area/cave</code>. If this sounds daunting, don't fear! We have brushed over a considerable chunk of DM in just a few sentences.</p>
+
+			<p>We've done a similar thing the <code>Bump(atom/obstacle</code> procedure of <code>/mob/player</code>. This procedure is called whenever a mob is blocked by a dense object, such as a wall or rat. The object being bumped is provided in the first parameter (called <var>obstacle</var> in this code). In this example, we display some text and play a sound.</p>
+
+			<p>Compile and test this world. Here are some things to try:</p>
+
+			<ul>
+				<li>Move between the two areas. Notice the different text that is displayed. If you have sound enabled, you should hear some nifty music too!</li>
+				<li>Try out the new <code>Bump()</code> proc by running into different objects.</li>
+			</ul>
+
+			<p>If you are feeling ambitious, you can build on this world by implementing some of the other predefined procedures that are documented in the reference under <code><a href="http://www.byond.com/docs/ref/info.html#/atom/proc">atom/proc</a></code>. The list is not large, but you will be surprised by just how much you can accomplish merely by setting a few simple properties.</p>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+
+		<hr>
+
+		<div id="verbs">
+			<h2>Introducing Verbs</h2>
+
+			<p>Include the file <code>main-c.dm</code>. This introduces DM verbs. These are commands that can be typed or clicked on by the user to do different things. Here, we have created verbs for <code>/obj</code>, <code>/obj/cheese</code>, <code>/obj/scroll</code>, and <code>/mob/player</code>. As with all properties, verbs are inherited, so <code>cheese</code> and <code>scroll</code> inherit the verbs of <code>obj</code>.
+
+			<p>The verbs <code>obj.get()</code> and <code>obj.drop()</code> simply allow players to pick up and drop different objects. They do this by "moving" the objects to different locations. The "get" verb can be activated when the player is on the same turf as the object (<code>set src in oview(0)</code>), while "drop" can be activated when the object is in the player's inventory (<code>set src in usr</code>, the default for <code>obj</code>).</p>
+
+			<p>The verbs for the <code>cheese</code>, <code>scroll</code>, and <code>player</code> are a bit more complicated, but if you explore the world their functions should become apparent. Compile and run this world, and see for yourself. Here are some things to try:</p>
+
+			<ul>
+				<li>Notice which verbs are accessible to you at different times. For instance, you should always have the "look" verb, but access to the other verbs should come and go based on your position. Do you see why?</li>
+				<li>BYOND has a powerful command-completion system that aids greatly in typing commands. Try using the <kbd>SPACE</kbd> and <kbd>TAB</kbd> keys as you type your commands.</li>
+				<li>Move the cheese and scroll around by experimenting with "get" and "drop". The "inventory" pane should fluctuate as you acquire and lose these items.</li>
+				<li>Try out the different verbs and see what happens. Add your own verbs to the world. The reference and other tutorials are chock full of useful commands that you can use to make truly powerful verbs and procs.</li>
+			</ul>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+
+		<hr>
+
+		<div id="interconnecting-procedures">
+			<h2>Interconnecting Procedures</h2>
+
+			<p>Next, let's demonstrate a couple of examples of procedure manipulation and inheritence. Include the file <code>main-d.dm</code>. One thing we've done is introduce a response procedure, <code>Bumped()</code>, that gets called by the player's <code>Bump()</code> proc. The idea here is to be able to define different responses for objects that blocked the player's movement. Here we have created a response (a little animation sequence) for <code>/mob/rat</code>. You can create responses for any other possible target, such as the <code>wall</code> turf. Simply define an action <code>Bumped()</code> proc for that object.</p>
+
+			<p>The other thing you may notice about this world is the overriden proc, <code>cheese.Move()</code>. We are using the <code>walk_to()</code> instruction to make rats move towards any cheese in their vicinity. The <code>..()</code> instruction used within this procedure performs the default behavior for <code>Move()</code>. This is a very powerful operation that is critical for overriding and augmenting procedures. If you don't call it in a case like this, the cheese will fail to move when the player tries to pick it up or drop it.</p>
+
+			<p>Test out these slightly more advanced topics by compiling and running this world:</p>
+
+			<ul>
+				<li>Try bumping into the rat, noticing that this time not one, but two procedures are executed (<code>player.Bump()</code> and <code>rat.Bumped()</code>.)</li>
+				<li>Read the scroll to create another rat, then manipulate the two creatures by moving the cheese around. Notice that the rats constantly track the cheese, even following you when its in your possession. The <code>walk_to()</code> proc is an easy way to make "followers"; you can use the different high-level movement commands (like <code>step_to()</code>) to perform different kinds of walking functions.</li>
+			</ul>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+
+		<hr>
+
+		<div id="multiplayer-functionality">
+			<h2>Adding Multiplayer Functionality</h2>
+
+			<p>Finally, let's conclude this world by getting a taste of true multiplayer functionality.</p>
+
+			<p>Include the file <code>main-e.dm</code>. As you can see, this does nothing more than add a few verbs to the <code>player</code> mob. These fall into two categories: "conversation" verbs ("say", "shout", "whisper", "tell") and "configuration" verbs ("change name", "change icon"). Both of these add functionality to the multiplayer aspect of this world. The conversation verbs allow players to communicate with one another, while the configuration verbs allow players to change their appearance. (You would obviously want to regulate name changes a little more carefully.)</p>
+
+			<p>Running a networked BYOND world takes no more effort than running a local world. Just click the "Host..." button in Dream Seeker.</p>
+
+			<p>Compile and test this world. If you are connected to a network (either locally or via the Internet) and have multiple BYOND keys, you can test out the multiplayer feature by having the second key connect to the world. Once again, the Dream Seeker help pages give a detailed explanation on this process.</p>
+
+			<p>Here are some things to try:</p>
+
+			<ul>
+				<li>Test the conversation routines. Each expects a text argument, which follows the command name. The command-completion system will make this apparent by inserting a double quote on the command line. Example: <samp>say "Hi there.</samp></li>
+				<li>If you are hosting a server, notice the difference in ranges for the various text commands. For instance, "whisper" communicates with mobs one tile away, while "say" communicates with those in sight. The four commands presented here formulate a simple chat server.</li>
+				<li>Use the "change name" command to change your name.</li>
+				<li>Use the "change icon" command to change your player's icon. This excepts a file argument, specifically an image file located on your computer. If you just click the verb or type "change-icon" and hit <kbd>ENTER</kbd>, you can select the file through a graphical interface.</li>
+			</ul>
+
+			<p>You can easily build on this tutorial by modifying and augmenting the existing objects. Better yet, add your own objects to the mix, and create a real map worth exploring!</p>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+
+		<hr>
+
+		<div id="where-next">
+			<h2>Where To Go Next</h2>
+
+			<p>At this point, you probably have a number of questions. Here are a few pointers about where to go next:</p>
+
+			<h3>Where can I learn more?</h3>
+
+			<p>You should check out the <a href="http://www.byond.com/developer/articles/resources">Resource Repository</a>. It contains a number of our best tutorials and articles pertaining to both programming and game design. I highly recommend the Blue Book (<a href="http://www.byond.com/docs/guide/">HTML</a>, <a href="http://www.byond.com/docs/guide/guide.pdf">PDF</a>) and a realistic appreciation of the fact that programming simply takes a <strong>lot</strong> of pratice.</p>
+
+			<p>When you feel comfortable enough to move on, I suggest having a look at <a href="http://www.byond.com/developer/Deadron/StepBYOND">Step BYOND</a>. It builds upon and refines a lot of what Your First World teaches and really shows what BYOND is capable of!
+
+			<h3>Wait! What more can I do with Your First World before I move on?</h3>
+
+			<h4>Do I have to type "say" every time I speak?</h4>
+
+			<p class="indent">Not at all! Check out <var><a href="http://www.byond.com/docs/ref/info.html#/client/var/command_text">client.command_text</a></var> and also try hitting the Chat button next to the command line.</p>
+
+			<h4>Can I change the size of Dream Maker's view port?</h4>
+
+			<p class="indent">Absolutely; check out <var><a href="http://www.byond.com/docs/ref/info.html#/world/var/view">world.view</a></var> and also play around with the icon size options in Dream Seeker.
+
+			<h4>Can I change the name of the "Commands" panel?</h4>
+
+			<p class="indent">Yes; see <var><a href="http://www.byond.com/docs/ref/info.html#/verb/set/category">verb.set category</a></var>.</p>
+
+			<h4>What all can I do with the icon editor?</h4>
+
+			<p class="indent">See <a href="http://www.byond.com/developer/Tom/IconPrimer">Icon Primer</a> by <a href="http://www.byond.com/members/Tom">Tom</a> and The Man in the Icon Mask series of articles [<a href="http://www.byond.com/forum/?post=32396">The Ol' Switcheroo</a>, <a href="http://www.byond.com/forum/?post=34553">The Seamy Side of Icon Editing</a>, <a href="http://www.byond.com/forum/?post=35156">Pickin' and Grinnin'</a>] by <a href="http://www.byond.com/members/Gughunter">Gughunter</a>.</p>
+
+			<h4>But there's no combat!</h4>
+
+			<p class="indent">See <a href="http://www.byond.com/developer/Deadron/CombatSystem">Combat System</a> by <a href="http://www.byond.com/members/Deadron">Deadron</a> and <a href="http://www.byond.com/forum/?post=36143">ZBT - Action/RPGs</a> by <a href="http://www.byond.com/members/Zilal">Zilal</a>.
+
+			<h4>How do I save players when they log off?</h4>
+
+			<p class="indent">See the <a href="http://www.byond.com/docs/ref/info.html#/savefile">savefile reference entry</a>.</p>
+
+			<a href="#header">[Back to the Top]</a>
+		</div>
+	</body>
+</html>

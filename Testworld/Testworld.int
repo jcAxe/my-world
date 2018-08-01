@@ -1,10 +1,10 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1532788857
+LAST_COMPILE_TIME: 1533092151
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 511.1385
-WINDOW: Testworld.dm;person.dmi;grassFloor.dmi;Testworld.dmm
+WINDOW: Testworld.dm;person.dmi;grassFloor.dmi;bug.dmi;Testworld.dmm;gold.dmi;tree.dmi
 FILE: Testworld.dm
 */
 // END_INTERNALS
